@@ -4,6 +4,7 @@
     <link href="./style.css" rel="stylesheet" type="text/css">
     <meta charset="utf-8">
     <title>POMODORO</title>
+    <script src="https://kit.fontawesome.com/97228c3931.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <header>
@@ -11,17 +12,28 @@
     </header>
 
     <div class="dashboard bar">
-      <div class="icon"></div>
-      <div class="icon"></div>
-      <div class="icon"></div>
-      <div class="round icon">
-       <span>Work</span>
+      <div class="icon">
+        <i class="fas fa-play fa-5x"></i>
+        <!-- <i class="fas fa-pause fa-5x"></i> -->
       </div>
-      <div class="round icon">
+      <div class="icon">
+        <i class="fas fa-stop fa-5x"></i>
+      </div>
+      <div class="icon">
+        <i class="fas fa-volume-up fa-5x"></i>
+        <!-- <i class="fas fa-volume-mute fa-5x"></i> -->
+      </div>
+      <div class="icon">
+       <span>Work</span>
+       <input type="text" value="15">
+      </div>
+      <div class="icon">
         <span>Rest</span>
+        <input type="text" value="5">
       </div>
       <div class="icon">
         <span>Reset</span>
+        <i class="fas fa-sync-alt fa-5x"></i>
       </div>
     </div>
 
@@ -36,3 +48,6 @@
     <script src="./script.js"></script>
   </body>
 </html>
+
+
+<!-- TODO: buttons to change work and rest time, tweak the text, input-->
