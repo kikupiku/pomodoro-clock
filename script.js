@@ -15,6 +15,7 @@ let mainDisplay = document.getElementById('main-display');
 let resetButton = document.getElementById('reset');
 let startButton = document.getElementById('start');
 let stopButton = document.getElementById('stop');
+let progressBar = document.getElementById('time-left');
 
 workLength.addEventListener('input', (e) => {
   workTime = e.target.value;
@@ -35,6 +36,8 @@ resetButton.addEventListener('click', () => {
   updateRestTimeInput();
   setRemainingTime();
   updateDisplayTime();
+  stopClock();
+  showPlay();
 });
 
 startButton.addEventListener('click', () => {
@@ -79,7 +82,11 @@ function stopClock() {
 }
 
 function setRemainingTime() {
-  remainingTime = (isWorkTime) ? workTime * 60 : restTime * 60;
+  remainingTime = maxTime();
+}
+
+function maxTime() {
+  return (isWorkTime) ? workTime * 60 : restTime * 60;
 }
 
 function updateDisplayTime() {
@@ -91,6 +98,7 @@ function updateDisplayTime() {
   }
 
   mainDisplay.textContent = minutes + ':' + seconds;
+  updateProgressBar();
 }
 
 function updateWorkTimeInput() {
@@ -99,4 +107,8 @@ function updateWorkTimeInput() {
 
 function updateRestTimeInput() {
   restLength.value = restTime;
+}
+
+function updateProgressBar() {
+  progressBar.style.width = (remainingTime * 100) / maxTime() + '%';
 }
