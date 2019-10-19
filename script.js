@@ -48,11 +48,10 @@ startButton.addEventListener('click', () => {
 
 stopButton.addEventListener('click', () => {
   stopClock();
+  isWorkTime = true;
   showPlay();
   setRemainingTime();
   updateDisplayTime();
-
-  //updateProgressBar;
 });
 
 function toggleStartPause() {
@@ -71,14 +70,25 @@ function showPlay() {
 
 function startClock() {
   interval = setInterval(() => {
-    console.log('one second has passed');
+    console.log(remainingTime);
+    console.log(isWorkTime);
     remainingTime -= 1;
     updateDisplayTime();
+    switchWorkRest();
   }, 1000);
+
 }
 
 function stopClock() {
   clearInterval(interval);
+}
+
+function switchWorkRest() {
+  if (remainingTime <= 0) {
+    console.log('switching now');
+    isWorkTime = isWorkTime ? false : true;
+    setRemainingTime();
+  }
 }
 
 function setRemainingTime() {
