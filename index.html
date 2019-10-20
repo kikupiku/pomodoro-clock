@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <link href="./style.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="./assets/timer.png" type="image/x-icon">
     <meta charset="utf-8">
     <title>POMODORO</title>
     <script src="https://kit.fontawesome.com/97228c3931.js" crossorigin="anonymous"></script>
@@ -12,36 +13,36 @@
     </header>
 
     <div class="dashboard bar">
-      <div class="icon">
+      <div class="icon with-sound">
         <i  id="start" class="fas fa-play fa-5x"></i>
       </div>
-      <div class="icon">
+      <div class="icon with-sound">
         <i id="stop" class="fas fa-stop fa-5x"></i>
       </div>
-      <div class="icon">
-        <i class="fas fa-volume-up fa-5x"></i>
-        <!-- <i class="fas fa-volume-mute fa-5x"></i> -->
+      <div class="icon with-sound">
+        <i id="sound" class="fas fa-volume-up fa-5x"></i>
       </div>
       <div class="icon">
-       <span>Work</span>
-       <input id="work" type="number" value="25" min="5" max="60" step="5">
+       <span>WORK</span>
+       <button id="work-arrow-up" class="arrow"><img src="./assets/arrow-up.png" class="plus with-sound"></button>
+       <input id="work" type="number" value="25" min="5" max="60" step="5" onclick="this.select()">
+       <button id="work-arrow-down" class="arrow"><img src="./assets/arrow-down.png" class="minus with-sound"></button>
       </div>
       <div class="icon">
-        <span>Rest</span>
-        <input id="rest" type="number" value="5" min="5" max="60" step="5">
+        <span>REST</span>
+        <button id="rest-arrow-up" class="arrow"><img src="./assets/arrow-up.png" class="plus with-sound"></button>
+        <input id="rest" type="number" value="5" min="5" max="60" step="5" onclick="this.select()">
+         <button id="rest-arrow-down" class="arrow"><img src="./assets/arrow-down.png" class="minus with-sound"></button>
       </div>
-      <div class="icon">
-        <span>Reset</span>
+      <div class="icon with-sound">
+        <span>RESET</span>
         <i class="fas fa-sync-alt fa-5x" id="reset"></i>
       </div>
     </div>
 
-    <div class="display">
-      <p id="main-display">25:00</p>
-    </div>
-
     <div class="progress bar">
       <div id="time-left" class="bar"></div>
+      <p id="main-display">25:00</p>
     </div>
 
 
