@@ -40,6 +40,7 @@ let workArrowUp = document.getElementById('work-arrow-up');
 let workArrowDown = document.getElementById('work-arrow-down');
 let restArrowUp = document.getElementById('rest-arrow-up');
 let restArrowDown = document.getElementById('rest-arrow-down');
+let arrows = [workArrowUp, workArrowDown, restArrowUp, restArrowDown];
 
 let buttons = document.getElementsByClassName('with-sound');
 for (let i = 0; i < buttons.length; i++) {
@@ -51,15 +52,12 @@ for (let i = 0; i < buttons.length; i++) {
 let mainDisplay = document.getElementById('main-display');
 let progressBar = document.getElementById('time-left');
 let title = document.querySelector('title');
-let arrows = document.getElementsByClassName('arrow');
 let body = document.querySelector('body');
 let message = document.querySelector('h1');
 
 startButton.addEventListener('click', () => {
   (document.querySelector('.fa-pause') !== null) ? stopClock() : startClock();
-  workLength.disabled = true;
-  restLength.disabled = true;
-  disableOrEnableArrows('disable');
+  disableInputs();
   toggleStartPause();
 });
 
@@ -69,9 +67,7 @@ stopButton.addEventListener('click', () => {
   showPlay();
   setRemainingTime();
   updateDisplayTime();
-  workLength.disabled = false;
-  restLength.disabled = false;
-  disableOrEnableArrows('enable');
+  enableInputs();
   updateMessage('POMODORO');
   resetColor();
 });
@@ -82,23 +78,15 @@ soundButton.addEventListener('click', () => {
 });
 
 workLength.addEventListener('input', (e) => {
-  workTime = Math.floor(Math.abs(e.target.value));
-  if (workTime === 0) {
-    workTime = 1;
-  }
-
-  workLength.value = workTime;
+  workTime = cleanInput(e.target.value);
+  updateWorkTimeInput();
   setRemainingTime();
   updateDisplayTime();
 });
 
 restLength.addEventListener('input', e => {
-  restTime = Math.floor(Math.abs(e.target.value));
-  if (restTime === 0) {
-    restTime = 1;
-  }
-
-  restLength.value = restTime;
+  restTime = cleanInput(e.target.value);
+  updateRestTimeInput();
   setRemainingTime();
 });
 
@@ -112,9 +100,7 @@ resetButton.addEventListener('click', () => {
   updateDisplayTime();
   stopClock();
   showPlay();
-  workLength.disabled = false;
-  restLength.disabled = false;
-  disableOrEnableArrows('enable');
+  enableInputs();
   updateMessage('POMODORO');
   resetColor();
 });
@@ -220,10 +206,18 @@ function transitionColors(finishRed, finishGreen, finishBlue) {
   body.style.backgroundColor = `rgb(${redInTransition}, ${greenInTransition}, ${blueInTransition}`;
 }
 
-function disableOrEnableArrows(able) {
-  for (let i = 0; i < arrows.length; i++) {
-    arrows[i].disabled = (able === 'disable') ? true : false;
-  }
+function enableInputs() {
+  setInputsDisabled(false);
+}
+
+function disableInputs() {
+  setInputsDisabled(true);
+}
+
+function setInputsDisabled(trueOrFalse) {
+  workLength.disabled = trueOrFalse;
+  restLength.disabled = trueOrFalse;
+  arrows.forEach(arrow => arrow.disabled = trueOrFalse);
 }
 
 function toggleStartPause() {
@@ -258,6 +252,15 @@ function showMute() {
 function showSound() {
   soundButton.classList.add('fa-volume-up');
   soundButton.classList.remove('fa-volume-mute');
+}
+
+function cleanInput(inputNumber) {
+  newInput = Math.floor(Math.abs(inputNumber));
+  if (newInput === 0) {
+    newInput = 1;
+  }
+
+  return newInput;
 }
 
 function updateWorkTimeInput() {
