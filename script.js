@@ -147,17 +147,29 @@ function stopClock() {
 }
 
 function updateDisplayTime() {
+  let time = formatRemainingTime();
+
+  updateCountdown(time);
+  updateTitle(time);
+  updateProgressBar();
+}
+
+function formatRemainingTime() {
   let minutes = Math.floor(remainingTime / 60);
   let seconds = remainingTime % 60;
-
   if (seconds < 10) {
     seconds = '0' + seconds;
   }
 
   let time = minutes + ':' + seconds;
+}
+
+function updateCountdown(time) {
   mainDisplay.textContent = time;
+}
+
+function updateTitle(time) {
   title.textContent = isWorkTime ? time + ' of work left' : time + ' of rest left';
-  updateProgressBar();
 }
 
 function updateProgressBar() {
@@ -231,8 +243,8 @@ function showPause() {
 }
 
 function showPlay() {
-  startButton.classList.remove('fa-pause');
   startButton.classList.add('fa-play');
+  startButton.classList.remove('fa-pause');
   updateMessage('PAUSED POMODORO');
 }
 
