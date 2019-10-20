@@ -282,6 +282,8 @@ function cleanInput(inputNumber) {
   newInput = Math.floor(Math.abs(inputNumber));
   if (newInput === 0) {
     newInput = 1;
+  } else if (newInput > 60) {
+    newInput = 60;
   }
 
   return newInput;
