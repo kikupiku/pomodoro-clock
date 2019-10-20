@@ -1,15 +1,11 @@
 const defaultWorkTime = 25;
 const defaultRestTime = 5;
 const workRed = 31;
-const workBlue = 101;
 const workGreen = 117;
+const workBlue = 101;
 const restRed = 96;
-const restBlue = 173;
 const restGreen = 155;
-
-const workRestDiffRed = Math.abs(workRed - restRed);
-const workRestDiffBlue = Math.abs(workBlue - restBlue);
-const workRestDiffGreen = Math.abs(workGreen - restGreen);
+const restBlue = 173;
 
 const timeToWorkAudio = new Audio('./assets/work-time.wav');
 const timeToRestAudio = new Audio('./assets/rest-time.wav');
@@ -22,10 +18,6 @@ let restTime = defaultRestTime;
 
 let interval;
 let arrow;
-let decimalPercentLeft;
-let changeInRed;
-let changeInBlue;
-let changeInGreen;
 let remainingTime;
 setRemainingTime();
 
@@ -161,7 +153,7 @@ function formatRemainingTime() {
     seconds = '0' + seconds;
   }
 
-  let time = minutes + ':' + seconds;
+  return minutes + ':' + seconds;
 }
 
 function updateCountdown(time) {
@@ -197,25 +189,45 @@ function updateMessage(newMessage) {
 }
 
 function changeBackground() {
-  decimalPercentLeft = remainingTime / maxTime();
-
-  changeInRed = Math.floor(decimalPercentLeft * workRestDiffRed);
-  changeInGreen = Math.floor(decimalPercentLeft * workRestDiffGreen);
-  changeInBlue = Math.floor(decimalPercentLeft * workRestDiffBlue);
-
-  isWorkTime ? transitionColors(restRed, restGreen, restBlue) : transitionColors(workRed, workGreen, workBlue);
+  isWorkTime ? transitionToRestColors() : transitionToWorkColors();
 }
 
-function transitionColors(finishRed, finishGreen, finishBlue) {
-  startRed = (finishRed === restRed) ? workRed : restRed;
-  startGreen = (finishGreen === restGreen) ? workGreen : restGreen;
-  startBlue = (finishBlue === restBlue) ? workBlue : restBlue;
+function transitionToRestColors() {
+  transitionToColors(restRed, restGreen, restBlue);
+}
 
-  let redInTransition = (finishRed < startRed) ? finishRed + changeInRed : finishRed - changeInRed;
-  let greenInTransition = (finishGreen < startGreen) ? finishGreen + changeInGreen : finishGreen - changeInGreen;
-  let blueInTransition = (finishBlue < startBlue) ? finishBlue + changeInBlue : finishBlue - changeInBlue;
+function transitionToWorkColors() {
+  transitionToColors(workRed, workGreen, workBlue);
+}
+
+function transitionToColors(finishRed, finishGreen, finishBlue) {
+  let startRed = getStartingColor(finishRed, restRed, workRed);
+  let startGreen = getStartingColor(finishGreen, restGreen, workGreen);
+  let startBlue = getStartingColor(finishBlue, restBlue, workBlue);
+
+  let changeInRed = getChangeInColor(workRed, restRed);
+  let changeInGreen = getChangeInColor(workGreen, restGreen);
+  let changeInBlue = getChangeInColor(workBlue, restBlue);
+
+  let redInTransition = calculateChange(startRed, changeInRed, finishRed);
+  let greenInTransition = calculateChange(startGreen, changeInGreen, finishGreen);
+  let blueInTransition = calculateChange(startBlue, changeInBlue, finishBlue);
 
   body.style.backgroundColor = `rgb(${redInTransition}, ${greenInTransition}, ${blueInTransition}`;
+}
+
+function getStartingColor(finishColor, restColor, workColor) {
+  return (finishColor === restColor) ? workColor : restColor;
+}
+
+function getChangeInColor(workColor, restColor) {
+  let decimalPercentLeft = remainingTime / maxTime();
+  let workRestDiff = Math.abs(workColor - restColor);
+  return Math.floor(decimalPercentLeft * workRestDiff);
+}
+
+function calculateChange(startColor, changeInColor, finishColor) {
+  return (finishColor < startColor) ? finishColor + changeInColor : finishColor - changeInColor;
 }
 
 function enableInputs() {
