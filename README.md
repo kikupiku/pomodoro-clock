@@ -7,4 +7,4 @@ It focused on practicing javascript functions. To do it, I incorporated sound cu
 **LIVE VERSION [HERE](https://kikupiku.github.io/pomodoro-clock/)**
 
 
-![gif on the project in action](https://res.cloudinary.com/kikupiku/image/upload/v1597065128/project-gifs/pomodoro-timer_ohl1qj.gif)
+![gif on the project in action](https://res.cloudinary.com/kikupiku/image/upload/v1602937851/project-gifs/pomodoro-timer_n6tj7s.gif)
